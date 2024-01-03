@@ -4,10 +4,12 @@ import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
+import 'package:flame/palette.dart';
 import 'package:flutter/painting.dart';
 import 'package:pixel_adventure/components/jump_button.dart';
 import 'package:pixel_adventure/components/player.dart';
 import 'package:pixel_adventure/components/level.dart';
+import 'package:pixel_adventure/components/score.dart';
 
 class PixelAdventure extends FlameGame
     with
@@ -20,7 +22,7 @@ class PixelAdventure extends FlameGame
   late CameraComponent cam;
   Player player = Player(character: 'Pink Man');
   late JoystickComponent joystick;
-  bool showControls = true;
+  bool showControls = false;
   bool playSounds = true;
   double soundVolume = 1.0;
   List<String> levelNames = [
@@ -29,13 +31,25 @@ class PixelAdventure extends FlameGame
     'Level-03',
     'Level-04',
     'Level-05',
+    'Level-06',
   ];
+  Score score = Score();
+  TextStyle style = TextStyle(
+    color: BasicPalette.white.color,
+    fontSize: 15.0,
+  );
+  late TextComponent scoreText;
+  late TextComponent highScoreText;
+  double time = 120;
+  late double remainingTime;
+  late TextComponent timerText;
   int currentLevelIndex = 0;
 
   @override
   FutureOr<void> onLoad() async {
     // Load all images into cache
     await images.loadAllImages();
+    remainingTime = time;
 
     _loadLevel();
 
@@ -44,14 +58,33 @@ class PixelAdventure extends FlameGame
       add(JumpButton());
     }
 
+    scoreText = TextComponent(text: 'Score: ${score.currentScore}', textRenderer: TextPaint(style: style))
+      ..anchor = Anchor.topLeft
+      ..x = 32
+      ..y = 32
+      ..priority = 1;
+    highScoreText = TextComponent(text: 'HighScore: ${score.highScore}', textRenderer: TextPaint(style: style))
+      ..anchor = Anchor.topRight
+      ..x = size.x - 32
+      ..y = 32
+      ..priority = 1;
+    add(scoreText);
+    add(highScoreText);
     return super.onLoad();
   }
 
   @override
   void update(double dt) {
+    int currentScore = score.currentScore;
+    int highScore = score.highScore;
+
     if (showControls) {
       updateJoystick();
     }
+  
+    scoreText.text = 'Score: $currentScore';
+    highScoreText.text = 'HighScore: $highScore';
+
     super.update(dt);
   }
 
@@ -93,6 +126,18 @@ class PixelAdventure extends FlameGame
     }
   }
 
+  void loadThisLevel(String levelName) {
+    int index = levelNames.indexOf(levelName);
+
+    if (index < 0) {
+      return;
+    }
+
+    removeWhere((component) => component is Level);
+    currentLevelIndex = index;
+    _loadLevel();
+  }
+
   void loadNextLevel() {
     removeWhere((component) => component is Level);
 
@@ -101,6 +146,8 @@ class PixelAdventure extends FlameGame
       _loadLevel();
     } else {
       currentLevelIndex = 0;
+      score.saveHighScore();
+      score.resetScore();
       _loadLevel();
     }
   }
@@ -112,16 +159,12 @@ class PixelAdventure extends FlameGame
         levelName: levelNames[currentLevelIndex],
       );
 
-      if (world.player.character != player.character) {
-        print(world.player.character);
-      }
       cam = CameraComponent.withFixedResolution(
         world: world,
         width: 640,
         height: 360,
       );
       cam.viewfinder.anchor = Anchor.topLeft;
-
       addAll([cam, world]);
     });
   }

@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:flame/components.dart';
+import 'package:flame/palette.dart';
 import 'package:flame_tiled/flame_tiled.dart';
+import 'package:flutter/painting.dart';
 import 'package:pixel_adventure/components/background_tile.dart';
 import 'package:pixel_adventure/components/checkpoint.dart';
 import 'package:pixel_adventure/components/chicken.dart';
@@ -9,6 +11,7 @@ import 'package:pixel_adventure/components/collision_block.dart';
 import 'package:pixel_adventure/components/fruit.dart';
 import 'package:pixel_adventure/components/player.dart';
 import 'package:pixel_adventure/components/saw.dart';
+import 'package:pixel_adventure/components/score.dart';
 import 'package:pixel_adventure/pixel_adventure.dart';
 
 class Level extends World with HasGameRef<PixelAdventure> {
@@ -17,19 +20,60 @@ class Level extends World with HasGameRef<PixelAdventure> {
   Level({required this.levelName, required this.player});
   late TiledComponent level;
   List<CollisionBlock> collisionBlocks = [];
+  late Score score;
+  late double time;
+  late double remainingTime;
+  bool timeIsStarted = false;
+  late TextComponent timerText;
 
   @override
   FutureOr<void> onLoad() async {
+    score = game.score;
     player.character = 'Mask Dude';
     level = await TiledComponent.load('$levelName.tmx', Vector2.all(16));
 
     add(level);
 
     _scrollingBackground();
+    _getTimer();
     _spawningObjects();
     _addCollisions();
 
+    timerText = TextComponent(
+      text: '$remainingTime',
+      textRenderer: TextPaint(style: TextStyle(color: BasicPalette.white.color, fontSize: 15.0))
+    )
+      ..x = 320 - ('$remainingTime'.length * 15)
+      ..y = 32
+      ..priority = 1;
+    add(timerText);
     return super.onLoad();
+  }
+
+
+  @override
+  void update(double dt) {
+    super.update(dt);
+
+    remainingTime -= dt;
+
+    if (remainingTime.ceil() < 0) {
+      score.resetScore();
+      game.loadThisLevel(levelName);
+    } else {
+      timerText.text = '${remainingTime.ceil()}';
+    }
+  }
+
+  void _getTimer() {
+    final backgroundLayer = level.tileMap.getLayer('Background');
+
+    if (backgroundLayer != null) {
+      final levelTime = backgroundLayer.properties.getValue('Timer');
+
+      time = levelTime ?? 60;
+      remainingTime = time;
+    }
   }
 
   void _scrollingBackground() {

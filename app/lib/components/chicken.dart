@@ -5,6 +5,7 @@ import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:pixel_adventure/components/player.dart';
+import 'package:pixel_adventure/components/score.dart';
 import 'package:pixel_adventure/pixel_adventure.dart';
 
 enum State { idle, run, hit }
@@ -34,6 +35,7 @@ class Chicken extends SpriteAnimationGroupComponent
   bool gotStomped = false;
 
   late final Player player;
+  late final Score score;
   late final SpriteAnimation _idleAnimation;
   late final SpriteAnimation _runAnimation;
   late final SpriteAnimation _hitAnimation;
@@ -41,6 +43,7 @@ class Chicken extends SpriteAnimationGroupComponent
   @override
   FutureOr<void> onLoad() {
     // debugMode = true;
+    score = game.score;
     player = game.player;
 
     add(
@@ -141,6 +144,7 @@ class Chicken extends SpriteAnimationGroupComponent
       player.velocity.y = -_bounceHeight;
       await animationTicker?.completed;
       removeFromParent();
+      score.updateScore(100);
     } else {
       player.collidedwithEnemy();
     }

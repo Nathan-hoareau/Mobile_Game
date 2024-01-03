@@ -4,6 +4,7 @@ import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:pixel_adventure/components/custom_hitbox.dart';
+import 'package:pixel_adventure/components/score.dart';
 import 'package:pixel_adventure/pixel_adventure.dart';
 
 class Fruit extends SpriteAnimationComponent
@@ -26,10 +27,12 @@ class Fruit extends SpriteAnimationComponent
     height: 12,
   );
   bool collected = false;
+  late final Score score;
 
   @override
   FutureOr<void> onLoad() {
     // debugMode = true;
+    score = game.score;
     priority = -1;
 
     add(
@@ -68,6 +71,7 @@ class Fruit extends SpriteAnimationComponent
 
       await animationTicker?.completed;
       removeFromParent();
+      score.updateScore(75);
     }
   }
 }

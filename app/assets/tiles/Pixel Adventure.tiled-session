@@ -9,16 +9,19 @@
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
+        "/home/nate/Epitech/Hub/Applications/app/assets/tiles/Pixel Adventure.tsx": {
+            "scaleInDock": 1
+        },
         "Level-01.tmx": {
             "expandedObjectLayers": [
                 2,
                 3
             ],
             "scale": 2.159765625,
-            "selectedLayer": 1,
+            "selectedLayer": 0,
             "viewCenter": {
-                "x": 306.2832338578405,
-                "y": 179.1861096039067
+                "x": 316.9325375293905,
+                "y": 164.8327003074697
             }
         },
         "Level-02.tmx": {
@@ -27,7 +30,7 @@
                 3
             ],
             "scale": 1.5897656249999998,
-            "selectedLayer": 1,
+            "selectedLayer": 2,
             "viewCenter": {
                 "x": 320.4874932429113,
                 "y": 184.3038969973955
@@ -38,11 +41,11 @@
                 2,
                 4
             ],
-            "scale": 1.5897656249999998,
-            "selectedLayer": 1,
+            "scale": 1.3978,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 320.4874932429113,
-                "y": 184.3038969973955
+                "x": 348.0469308914008,
+                "y": 193.16068107025328
             }
         },
         "Level-04.tmx": {
@@ -62,15 +65,28 @@
                 2,
                 3
             ],
-            "scale": 1.5897656249999998,
+            "scale": 1.8756,
             "selectedLayer": 2,
             "viewCenter": {
-                "x": 320.4874932429113,
-                "y": 184.3038969973955
+                "x": 299.3708679889103,
+                "y": 199.93602047344854
+            }
+        },
+        "Level-06.tmx": {
+            "expandedObjectLayers": [
+                2,
+                4
+            ],
+            "scale": 2.8215,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 252.17083111819957,
+                "y": 167.28690412900943
             }
         },
         "Pixel Adventure.tsx": {
-            "scaleInDock": 1
+            "scaleInDock": 1,
+            "scaleInEditor": 1
         }
     },
     "last.imagePath": "C:/Users/Spellthorn/Desktop/pixel_adventure/assets/images/Terrain",
@@ -85,6 +101,8 @@
     "project": "Pixel Adventure.tiled-project",
     "property.type": "bool",
     "recentFiles": [
+        "Pixel Adventure.tsx",
+        "Level-03.tmx",
         "Level-01.tmx"
     ],
     "tileset.lastUsedFormat": "tsx",

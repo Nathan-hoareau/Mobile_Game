@@ -10,6 +10,7 @@ import 'package:pixel_adventure/components/collision_block.dart';
 import 'package:pixel_adventure/components/custom_hitbox.dart';
 import 'package:pixel_adventure/components/fruit.dart';
 import 'package:pixel_adventure/components/saw.dart';
+import 'package:pixel_adventure/components/score.dart';
 import 'package:pixel_adventure/components/utils.dart';
 import 'package:pixel_adventure/pixel_adventure.dart';
 
@@ -60,11 +61,13 @@ class Player extends SpriteAnimationGroupComponent
   );
   double fixedDeltaTime = 1 / 60;
   double accumulatedTime = 0;
+  late Score score;
 
   @override
   FutureOr<void> onLoad() {
     _loadAllAnimations();
 
+    score = game.score;
     startingPosition = Vector2(position.x, position.y);
 
     add(RectangleHitbox(
@@ -275,6 +278,7 @@ class Player extends SpriteAnimationGroupComponent
     await animationTicker?.completed;
     animationTicker?.reset();
 
+    score.updateScore(-50);
     scale.x = 1;
     position = startingPosition - Vector2.all(32);
     current = PlayerState.appearing;
@@ -290,6 +294,7 @@ class Player extends SpriteAnimationGroupComponent
 
   void _reachedCheckpoint() async {
     reachedCheckpoint = true;
+    score.updateHighScore();
     if (game.playSounds) {
       FlameAudio.play('disappear.wav', volume: game.soundVolume);
     }
@@ -307,7 +312,7 @@ class Player extends SpriteAnimationGroupComponent
     reachedCheckpoint = false;
     position = Vector2.all(-640);
 
-    const waitToChangeDuration = Duration(seconds: 3);
+    const waitToChangeDuration = Duration(seconds: 1);
     Future.delayed(waitToChangeDuration, () => game.loadNextLevel());
   }
 
