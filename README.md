@@ -53,9 +53,8 @@ This project helped me improve my skills in:
 - Performance optimization
 - Problem solving
 
-## Installation
+## Screenshots
 
-```bash
-cd app/
-flutter run
-```
+| Gameplay 1 | Gameplay 2 | Gameplay 3 |
+|------------|------------|------------|
+| ![](app/assets/Screen1.png) | ![](app/assets/Screen2.png) | ![](app/assets/Screen3.png) |
