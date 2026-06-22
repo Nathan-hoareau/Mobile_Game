@@ -1,18 +1,61 @@
 # Pixel Adventure
 
-A 2D Pixel Art Platformer coded in Flutter and Flame
+A 2D platformer mobile game developed using Flutter and the Flame game engine.
 
-🖼️ Asset pack from <https://pixelfrog-assets.itch.io/pixel-adventure-1>
+## Project Overview
 
-![Pixel Adventure](./app/assets/illustration.jpg)
+This project was created to explore mobile game development using Flutter while implementing game programming fundamentals such as physics, collision systems and animation handling.
 
-# Installation
+The game is inspired by classic pixel-art platformers.
 
-* [__Flutter__](https://docs.flutter.dev/get-started/editor)
+## Features
 
-# Start
+- Character movement system
+- Jump mechanics
+- Collision detection
+- Level progression
+- Sprite animations
 
- ```bash
- cd app/
- flutter run
- ```
+## Technologies Used
+
+- Dart
+- Flutter
+- Flame Engine
+- Git
+- Mobile development
+
+## What I worked on
+
+I developed the core gameplay systems including:
+
+- Player controller
+- Physics and collisions
+- Animation management
+- UI integration
+- Level management
+- Debugging and optimization
+
+## Challenges
+
+Main technical challenges included:
+
+- Implementing smooth collision detection
+- Optimizing game performance on mobile devices
+- Managing sprite animations efficiently
+
+## What I learned
+
+This project helped me improve my skills in:
+
+- Game architecture
+- Mobile development
+- Object oriented programming
+- Performance optimization
+- Problem solving
+
+## Installation
+
+```bash
+cd app/
+flutter run
+```
